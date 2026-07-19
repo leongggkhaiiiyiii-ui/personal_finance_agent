@@ -19,8 +19,7 @@ test_macro_f1 = 0.257
 baseline_accuracy = 0.110
 
 # Budget thresholds
-
-budgets = {
+BUDGETS = {
     "Entertainment": 2910.39,
     "Food & Drink": 3189.87,
     "Health & Fitness": 2852.02,
@@ -31,7 +30,6 @@ budgets = {
 }
 
 # App & schemas
-
 app = FastAPI(
     title="Personal Finance Category & Budget API",
     description=(
@@ -102,8 +100,8 @@ def model_info():
 
 
 @app.get("/budgets")
-def budgets():
-    return budgets
+def get_budgets():
+    return BUDGETS
 
 
 @app.post("/predict", response_model=PredictionOut)
@@ -121,7 +119,7 @@ def predict(tx: TransactionIn):
 
 @app.post("/check_budget", response_model=BudgetCheckOut)
 def check_budget(payload: BudgetCheckIn):
-    budget = budgets.get(payload.category)
+    budget = BUDGETS.get(payload.category)
     if budget is None:
         return BudgetCheckOut(
             category=payload.category,
