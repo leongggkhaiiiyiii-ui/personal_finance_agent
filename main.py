@@ -144,8 +144,6 @@ def check_budget(payload: BudgetCheckIn):
 
 @app.post("/predict_and_check_budget")
 def predict_and_check_budget(tx: TransactionIn, month_to_date_spent_excl_this_tx: float = 0.0):
-    """Convenience endpoint combining /predict + /check_budget in one call,
-    used by the n8n HTTP Request node so the agent only needs one hop."""
     pred = predict(tx)
     total_spent = month_to_date_spent_excl_this_tx + tx.amount
     budget_check = check_budget(BudgetCheckIn(category=pred.predicted_category, month_to_date_spent=total_spent))
